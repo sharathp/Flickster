@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+ext {
+    APPCOMPAT_VERSION = "24.1.0"
+    JUNIT_VERSION = "4.12"
+    ASYNC_HTTP_VERSION = "1.4.9"
+    PICASSO_VERSION = "2.5.2"
+    BUTTERKNIFE_VERSION = "8.2.1"
+    GSON_VERSION = "2.7"
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+
+    defaultConfig {
+        applicationId "com.sharathp.flickster"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "com.android.support:appcompat-v7:$APPCOMPAT_VERSION"
+    compile "com.android.support:recyclerview-v7:$APPCOMPAT_VERSION"
+    compile "com.android.support:cardview-v7:$APPCOMPAT_VERSION"
+
+    compile "com.loopj.android:android-async-http:$ASYNC_HTTP_VERSION"
+    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
+    compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
+    compile "com.google.code.gson:gson:$GSON_VERSION"
+
+    testCompile "junit:junit:$JUNIT_VERSION"
+}
