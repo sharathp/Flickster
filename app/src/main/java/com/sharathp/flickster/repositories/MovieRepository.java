@@ -2,14 +2,13 @@ package com.sharathp.flickster.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.sharathp.flickster.models.Movie;
+import com.sharathp.flickster.models.MoviesResponse;
 import com.sharathp.flickster.util.Constants;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -17,11 +16,11 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Repository to retrieve
  */
-public class MoviesRepository {
+public class MovieRepository {
     private WeakReference<Callback> mCallback;
     private final Gson mGson;
 
-    public MoviesRepository(final Callback callback) {
+    public MovieRepository(final Callback callback) {
         mCallback = new WeakReference<>(callback);
         mGson = new GsonBuilder().create();
     }
@@ -31,12 +30,11 @@ public class MoviesRepository {
         client.get(Constants.getLatestMoviesUrl(), new TextHttpResponseHandler() {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final String res) {
-                final Type type = new TypeToken<List<Movie>>(){ }.getType();
-                final List<Movie> movies = mGson.fromJson(res, type);
+                final MoviesResponse moviesResponse = mGson.fromJson(res, MoviesResponse.class);
 
                 final Callback callback = getCallback();
                 if (callback != null) {
-                    callback.moviesRetrievedSuccessfully(movies);
+                    callback.moviesRetrievedSuccessfully(moviesResponse.getMovies());
                 }
             }
 

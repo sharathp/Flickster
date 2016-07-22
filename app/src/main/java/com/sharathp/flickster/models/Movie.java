@@ -10,6 +10,9 @@ public class Movie {
     @SerializedName("title")
     private String mTitle;
 
+    @SerializedName("overview")
+    private String mOverview;
+
     @SerializedName("poster_path")
     private String mPosterPath;
 
@@ -19,6 +22,7 @@ public class Movie {
     @SerializedName("vote_average")
     private float mVoteAverage;
 
+    @SerializedName("video")
     private boolean mVideo;
 
     public long getId() {
@@ -35,6 +39,14 @@ public class Movie {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getOverview() {
+        return mOverview;
+    }
+
+    public void setOverview(String overview) {
+        mOverview = overview;
     }
 
     public String getPosterPath() {
