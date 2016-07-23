@@ -22,7 +22,7 @@ public class MoviesResponse {
         return mPage;
     }
 
-    public void setPage(int page) {
+    public void setPage(final int page) {
         mPage = page;
     }
 
@@ -30,7 +30,7 @@ public class MoviesResponse {
         return mMovies;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(final List<Movie> movies) {
         mMovies = movies;
     }
 
@@ -38,7 +38,7 @@ public class MoviesResponse {
         return mTotalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(final int totalPages) {
         mTotalPages = totalPages;
     }
 
@@ -46,7 +46,7 @@ public class MoviesResponse {
         return mTotalResults;
     }
 
-    public void setTotalResults(int totalResults) {
+    public void setTotalResults(final int totalResults) {
         mTotalResults = totalResults;
     }
 }

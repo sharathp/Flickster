@@ -2,7 +2,6 @@ package com.sharathp.flickster.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,11 +28,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
     private static final float RATING_MOVIE_POPULAR = 5.0f;
 
     private List<Movie> mMovies;
-    private Context mContext;
+    private final MovieItemCallback mMovieItemCallback;
 
-    public MovieListAdapter(final List<Movie> movies, final Context context) {
+    public MovieListAdapter(final List<Movie> movies, final MovieItemCallback movieItemCallback) {
         mMovies = movies;
-        mContext = context;
+        mMovieItemCallback = movieItemCallback;
     }
 
     @Override
@@ -55,11 +54,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         switch (viewType) {
             case TYPE_POPULAR_MOVIE: {
                 final View movieView = inflater.inflate(R.layout.item_movie, parent, false);
-                return new RegularMovieViewHolder(movieView);
+                return new RegularMovieViewHolder(movieView, mMovieItemCallback);
             }
             case TYPE_REGULAR_MOVIE: {
                 final View movieView = inflater.inflate(R.layout.item_movie_popular, parent, false);
-                return new PopularMovieViewHolder(movieView);
+                return new PopularMovieViewHolder(movieView, mMovieItemCallback);
             }
             default: {
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);
@@ -103,12 +102,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
     }
 
     public static abstract class AbstractMovieViewHolder extends RecyclerView.ViewHolder {
+        protected final MovieItemCallback mMovieItemCallback;
+        protected Movie mMovie;
 
-        public AbstractMovieViewHolder(final View itemView) {
+        public AbstractMovieViewHolder(final View itemView, final MovieItemCallback movieItemCallback) {
             super(itemView);
+            mMovieItemCallback = movieItemCallback;
         }
 
-        protected abstract void bind(final Movie movie);
+        public final void bind(final Movie movie) {
+            mMovie = movie;
+            doBind();
+        }
+
+        protected abstract void doBind();
     }
 
     public static class PopularMovieViewHolder extends AbstractMovieViewHolder {
@@ -119,15 +126,23 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         @BindView(R.id.iv_movie_play)
         ImageView mPlayImageView;
 
-        public PopularMovieViewHolder(final View itemView) {
-            super(itemView);
+        private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                mMovieItemCallback.onPopularMovieSelected(mMovie);
+            }
+        };
+
+        public PopularMovieViewHolder(final View itemView, final MovieItemCallback movieItemCallback) {
+            super(itemView, movieItemCallback);
+            itemView.setOnClickListener(mOnClickListener);
             ButterKnife.bind(this, itemView);
         }
 
         @Override
-        public void bind(final Movie movie) {
+        public void doBind() {
             Picasso.with(itemView.getContext())
-                    .load(Constants.getBackdropImageUrl(movie.getBackdropPath()))
+                    .load(Constants.getBackdropImageUrl(mMovie.getBackdropPath()))
                     .fit()
                     .centerInside()
                     .placeholder(R.drawable.placeholder_land)
@@ -165,15 +180,23 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         @BindView(R.id.iv_movie_poster)
         ImageView mPosterImageView;
 
-        public RegularMovieViewHolder(final View itemView) {
-            super(itemView);
+        private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                mMovieItemCallback.onMovieSelected(mMovie);
+            }
+        };
+
+        public RegularMovieViewHolder(final View itemView, final MovieItemCallback movieItemCallback) {
+            super(itemView, movieItemCallback);
+            itemView.setOnClickListener(mOnClickListener);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(final Movie movie) {
-            mTitleTextView.setText(movie.getTitle());
-            mDescriptionTextView.setText(movie.getOverview());
-            loadImage(movie);
+        public void doBind() {
+            mTitleTextView.setText(mMovie.getTitle());
+            mDescriptionTextView.setText(mMovie.getOverview());
+            loadImage(mMovie);
         }
 
         private void loadImage(final Movie movie) {
@@ -207,9 +230,23 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         }
     }
 
+    /**
+     * Interface to be implemented to be notified about actions on movie items.
+     */
+    public interface MovieItemCallback {
 
-    @IntDef({TYPE_REGULAR_MOVIE, TYPE_POPULAR_MOVIE})
-    public @interface ViewType {
-        // no-op
+        /**
+         * Callback invoked when a movie is tapped/selected.
+         *
+         * @param movie
+         */
+        void onMovieSelected(Movie movie);
+
+        /**
+         * Callback invoked when a popular movie is tapped/selected.
+         *
+         * @param movie
+         */
+        void onPopularMovieSelected(Movie movie);
     }
 }

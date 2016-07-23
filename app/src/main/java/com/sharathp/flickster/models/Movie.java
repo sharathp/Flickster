@@ -29,7 +29,7 @@ public class Movie {
         return mId;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         mId = id;
     }
 
@@ -37,7 +37,7 @@ public class Movie {
         return mTitle;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         mTitle = title;
     }
 
@@ -45,7 +45,7 @@ public class Movie {
         return mOverview;
     }
 
-    public void setOverview(String overview) {
+    public void setOverview(final String overview) {
         mOverview = overview;
     }
 
@@ -53,7 +53,7 @@ public class Movie {
         return mPosterPath;
     }
 
-    public void setPosterPath(String posterPath) {
+    public void setPosterPath(final String posterPath) {
         mPosterPath = posterPath;
     }
 
@@ -61,7 +61,7 @@ public class Movie {
         return mBackdropPath;
     }
 
-    public void setBackdropPath(String backdropPath) {
+    public void setBackdropPath(final String backdropPath) {
         mBackdropPath = backdropPath;
     }
 
@@ -69,7 +69,7 @@ public class Movie {
         return mVoteAverage;
     }
 
-    public void setVoteAverage(float voteAverage) {
+    public void setVoteAverage(final float voteAverage) {
         mVoteAverage = voteAverage;
     }
 
@@ -77,7 +77,7 @@ public class Movie {
         return mVideo;
     }
 
-    public void setVideo(boolean video) {
+    public void setVideo(final boolean video) {
         mVideo = video;
     }
 }

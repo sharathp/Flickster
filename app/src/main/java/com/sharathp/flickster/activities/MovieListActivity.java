@@ -1,5 +1,6 @@
 package com.sharathp.flickster.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieListActivity extends AppCompatActivity implements MovieRepository.Callback {
+public class MovieListActivity extends AppCompatActivity implements MovieRepository.MoviesListCallback, MovieListAdapter.MovieItemCallback {
     private MovieListAdapter mMovieListAdapter;
     private MovieRepository mMovieRepository;
 
@@ -39,15 +40,15 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
         mMoviesRecyclerView.setAdapter(mMovieListAdapter);
         mMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mMovieRepository = new MovieRepository(this);
-        mMovieRepository.retrieveAllMovies();
+        mMovieRepository = new MovieRepository();
+        mMovieRepository.retrieveAllMovies(this);
 
         mMoviesSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // show spinner..
                 mMovieListAdapter.setMovies(null);
-                mMovieRepository.retrieveAllMovies();
+                mMovieRepository.retrieveAllMovies(MovieListActivity.this);
             }
         });
     }
@@ -59,8 +60,19 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
     }
 
     @Override
-    public void moviesRetrievedFailed() {
+    public void moviesRetrievalFailed() {
         mMoviesSwipeContainer.setRefreshing(false);
         Toast.makeText(this, "Unable to retrieve Movies", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onMovieSelected(Movie movie) {
+        // TODO - navigate to details
+    }
+
+    @Override
+    public void onPopularMovieSelected(Movie movie) {
+        final Intent intent = YoutubeActivity.createIntent(this, movie.getId());
+        startActivity(intent);
     }
 }

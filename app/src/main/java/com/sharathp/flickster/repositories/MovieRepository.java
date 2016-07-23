@@ -5,10 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.sharathp.flickster.models.Movie;
+import com.sharathp.flickster.models.MovieVideosResponse;
 import com.sharathp.flickster.models.MoviesResponse;
+import com.sharathp.flickster.models.Video;
 import com.sharathp.flickster.util.Constants;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -17,44 +18,45 @@ import cz.msebera.android.httpclient.Header;
  * Repository to retrieve
  */
 public class MovieRepository {
-    private WeakReference<Callback> mCallback;
     private final Gson mGson;
 
-    public MovieRepository(final Callback callback) {
-        mCallback = new WeakReference<>(callback);
+    public MovieRepository() {
         mGson = new GsonBuilder().create();
     }
 
-    public void retrieveAllMovies() {
+    public void retrieveAllMovies(final MoviesListCallback moviesListCallback) {
         final AsyncHttpClient client = new AsyncHttpClient();
         client.get(Constants.getLatestMoviesUrl(), new TextHttpResponseHandler() {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final String res) {
                 final MoviesResponse moviesResponse = mGson.fromJson(res, MoviesResponse.class);
-
-                final Callback callback = getCallback();
-                if (callback != null) {
-                    callback.moviesRetrievedSuccessfully(moviesResponse.getMovies());
-                }
+                moviesListCallback.moviesRetrievedSuccessfully(moviesResponse.getMovies());
             }
 
             @Override
             public void onFailure(final int statusCode, final Header[] headers, final String res, final Throwable t) {
-                final Callback callback = getCallback();
-                if (callback == null) {
-                    return;
-                }
-
-                callback.moviesRetrievedFailed();
-            }
-
-            private Callback getCallback() {
-                return mCallback.get();
+                moviesListCallback.moviesRetrievalFailed();
             }
         });
     }
 
-    public interface Callback {
+    public void retrieveMovieVideos(final long movieId, final MovieVideosCallback movieVideosCallback) {
+        final AsyncHttpClient client = new AsyncHttpClient();
+        client.get(Constants.getMovieVideosUrl(movieId), new TextHttpResponseHandler() {
+            @Override
+            public void onSuccess(final int statusCode, final Header[] headers, final String res) {
+                final MovieVideosResponse movieVideosResponse = mGson.fromJson(res, MovieVideosResponse.class);
+                movieVideosCallback.videosRetrievedSuccessfully(movieVideosResponse.getResults());
+            }
+
+            @Override
+            public void onFailure(final int statusCode, final Header[] headers, final String res, final Throwable t) {
+                movieVideosCallback.videosRetrievalFailed();
+            }
+        });
+    }
+
+    public interface MoviesListCallback {
 
         /**
          * Notify that movies were retrieved.
@@ -66,6 +68,21 @@ public class MovieRepository {
         /**
          * Notify movies retrieval failed.
          */
-        void moviesRetrievedFailed();
+        void moviesRetrievalFailed();
+    }
+
+    public interface MovieVideosCallback {
+
+        /**
+         * Notify that videos were retrieved.
+         *
+         * @param videos - videos
+         */
+        void videosRetrievedSuccessfully(List<Video> videos);
+
+        /**
+         * Notify movies retrieval failed.
+         */
+        void videosRetrievalFailed();
     }
 }

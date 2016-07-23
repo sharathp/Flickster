@@ -28,6 +28,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    String apiKey = getApiKey('YoutubeApiToken')
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'YOUTUBE_API_TOKEN', apiKey
+    }
 }
 
 dependencies {
@@ -46,4 +52,10 @@ dependencies {
     compile "com.google.code.gson:gson:$GSON_VERSION"
 
     testCompile "junit:junit:$JUNIT_VERSION"
+}
+
+def getApiKey(String keyName){
+    def Properties props = new Properties()
+    props.load(project.rootProject.file('local.properties').newDataInputStream())
+    return props[keyName]
 }
