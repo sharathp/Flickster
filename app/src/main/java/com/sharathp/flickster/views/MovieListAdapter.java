@@ -2,6 +2,7 @@ package com.sharathp.flickster.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +21,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.AbstractMovieViewHolder> {
+    private static final int TYPE_REGULAR_MOVIE = 0;
+    private static final int TYPE_POPULAR_MOVIE = 1;
+
+    private static final float RATING_MOVIE_POPULAR = 5.0f;
+
     private List<Movie> mMovies;
     private Context mContext;
 
@@ -30,16 +36,38 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        final Context context = parent.getContext();
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        final View movieView = inflater.inflate(R.layout.item_movie, parent, false);
-        final ViewHolder viewHolder = new ViewHolder(movieView);
-        return viewHolder;
+    public int getItemViewType(final int position) {
+        final Movie movie = mMovies.get(position);
+        if (isMoviePopular(movie)) {
+            return TYPE_POPULAR_MOVIE;
+        } else {
+            return TYPE_REGULAR_MOVIE;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public AbstractMovieViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        final Context context = parent.getContext();
+
+        final LayoutInflater inflater = LayoutInflater.from(context);
+
+        switch (viewType) {
+            case TYPE_POPULAR_MOVIE: {
+                final View movieView = inflater.inflate(R.layout.item_movie, parent, false);
+                return new RegularMovieViewHolder(movieView);
+            }
+            case TYPE_REGULAR_MOVIE: {
+                final View movieView = inflater.inflate(R.layout.item_movie_popular, parent, false);
+                return new PopularMovieViewHolder(movieView);
+            }
+            default:{
+                throw new IllegalArgumentException("Invalid viewType: " + viewType);
+            }
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(final AbstractMovieViewHolder holder, final int position) {
         Movie movie = mMovies.get(position);
         holder.bind(movie);
     }
@@ -68,7 +96,43 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private boolean isMoviePopular(final Movie movie) {
+        int compare = Float.compare(movie.getVoteAverage(), RATING_MOVIE_POPULAR);
+        return (compare >= 0);
+    }
+
+    public static abstract class AbstractMovieViewHolder extends RecyclerView.ViewHolder {
+
+        public AbstractMovieViewHolder(final View itemView) {
+            super(itemView);
+        }
+
+        protected abstract void bind(final Movie movie);
+    }
+
+    public static class PopularMovieViewHolder extends AbstractMovieViewHolder {
+
+        @BindView(R.id.iv_movie_backdrop)
+        ImageView mBackDropImageView;
+
+        public PopularMovieViewHolder(final View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void bind(final Movie movie) {
+            Picasso.with(itemView.getContext())
+                    .load(Constants.getBackdropImageUrl(movie.getBackdropPath()))
+                    .fit()
+                    .centerInside()
+                    .placeholder(R.drawable.placeholder_land)
+                    .error(R.drawable.error_placeholder_land)
+                    .into(mBackDropImageView);
+        }
+    }
+
+    public static class RegularMovieViewHolder extends AbstractMovieViewHolder {
 
         @BindView(R.id.tv_movie_title)
         TextView mTitleTextView;
@@ -84,7 +148,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         @BindView(R.id.iv_movie_poster)
         ImageView mPosterImageView;
 
-        public ViewHolder(final View itemView) {
+        public RegularMovieViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -123,5 +187,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                     .error(errorPlaceHolderImageRes)
                     .into(imageView);
         }
+    }
+
+
+    @IntDef({TYPE_REGULAR_MOVIE, TYPE_POPULAR_MOVIE})
+    public @interface ViewType {
+        // no-op
     }
 }
