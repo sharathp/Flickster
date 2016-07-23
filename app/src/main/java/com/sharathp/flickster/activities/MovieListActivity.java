@@ -41,15 +41,26 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
 
         mMovieRepository = new MovieRepository(this);
         mMovieRepository.retrieveAllMovies();
+
+        mMoviesSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // show spinner..
+                mMovieListAdapter.setMovies(null);
+                mMovieRepository.retrieveAllMovies();
+            }
+        });
     }
 
     @Override
     public void moviesRetrievedSuccessfully(final List<Movie> movies) {
         mMovieListAdapter.addMovies(movies);
+        mMoviesSwipeContainer.setRefreshing(false);
     }
 
     @Override
     public void moviesRetrievedFailed() {
+        mMoviesSwipeContainer.setRefreshing(false);
         Toast.makeText(this, "Unable to retrieve Movies", Toast.LENGTH_LONG).show();
     }
 }
