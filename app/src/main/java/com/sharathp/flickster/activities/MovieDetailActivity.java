@@ -11,6 +11,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.sharathp.flickster.BuildConfig;
 import com.sharathp.flickster.R;
+import com.sharathp.flickster.models.Movie;
 import com.sharathp.flickster.models.Video;
 import com.sharathp.flickster.repositories.MovieRepository;
 import com.sharathp.flickster.util.MovieUtil;
@@ -20,35 +21,37 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class YoutubeActivity extends YouTubeBaseActivity implements MovieRepository.MovieVideosCallback {
-    public static final String EXTRA_MOVIE_ID = YoutubeActivity.class.getSimpleName() + ":MOVIE_ID";
+public class MovieDetailActivity extends YouTubeBaseActivity implements MovieRepository.MovieVideosCallback {
+    public static final String EXTRA_MOVIE = MovieDetailActivity.class.getSimpleName() + ":MOVIE";
 
     private MovieRepository mMovieRepository;
+    private Movie mMovie;
 
     @BindView(R.id.ypv_play)
     YouTubePlayerView mYouTubePlayerView;
 
-    public static Intent createIntent(final Context context, final long movieId) {
-        final Intent intent = new Intent(context, YoutubeActivity.class);
-        intent.putExtra(EXTRA_MOVIE_ID, movieId);
+    public static Intent createIntent(final Context context, final Movie movie) {
+        final Intent intent = new Intent(context, MovieDetailActivity.class);
+        intent.putExtra(EXTRA_MOVIE, movie);
         return intent;
     }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_youtube);
+        setContentView(R.layout.activity_movie_detail);
+
         ButterKnife.bind(this);
+
+        mMovie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         mMovieRepository = new MovieRepository();
-        final long movieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, -1);
-        mMovieRepository.retrieveMovieVideos(movieId, this);
+        mMovieRepository.retrieveMovieVideos(mMovie.getId(), this);
     }
 
     @Override
     public void videosRetrievedSuccessfully(final List<Video> videos) {
         if (videos == null || videos.isEmpty()) {
-            Toast.makeText(YoutubeActivity.this, "No Videos to play", Toast.LENGTH_LONG).show();
-            finish();
+            Toast.makeText(MovieDetailActivity.this, "No Videos to play", Toast.LENGTH_LONG).show();
             return;
         }
         final String videoKey = MovieUtil.getVideoKeyToPlay(videos);
@@ -57,8 +60,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements MovieReposit
 
     @Override
     public void videosRetrievalFailed() {
-        Toast.makeText(YoutubeActivity.this, "Video Retrieval Failed!", Toast.LENGTH_LONG).show();
-        finish();
+        Toast.makeText(MovieDetailActivity.this, "Video Retrieval Failed!", Toast.LENGTH_LONG).show();
     }
 
     private void playVideo(final String videoKey) {
@@ -67,14 +69,13 @@ public class YoutubeActivity extends YouTubeBaseActivity implements MovieReposit
                     @Override
                     public void onInitializationSuccess(final YouTubePlayer.Provider provider,
                                                         final YouTubePlayer youTubePlayer, final boolean b) {
-                        youTubePlayer.loadVideo(videoKey);
+                        youTubePlayer.cueVideo(videoKey);
                     }
 
                     @Override
                     public void onInitializationFailure(final YouTubePlayer.Provider provider,
                                                         final YouTubeInitializationResult youTubeInitializationResult) {
-                        Toast.makeText(YoutubeActivity.this, "Youtube Failed!", Toast.LENGTH_LONG).show();
-                        finish();
+                        Toast.makeText(MovieDetailActivity.this, "Youtube Failed!", Toast.LENGTH_LONG).show();
                     }
                 });
     }

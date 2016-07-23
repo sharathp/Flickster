@@ -66,12 +66,13 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
     }
 
     @Override
-    public void onMovieSelected(Movie movie) {
-        // TODO - navigate to details
+    public void onMovieSelected(final Movie movie) {
+        final Intent intent = MovieDetailActivity.createIntent(this, movie);
+        startActivity(intent);
     }
 
     @Override
-    public void onPopularMovieSelected(Movie movie) {
+    public void onPopularMovieSelected(final Movie movie) {
         final Intent intent = YoutubeActivity.createIntent(this, movie.getId());
         startActivity(intent);
     }

@@ -21,6 +21,8 @@
             android:name=".activities.YoutubeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".activities.MovieDetailActivity" />
     </application>
 
 </manifest>
