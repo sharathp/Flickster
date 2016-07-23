@@ -2,7 +2,10 @@ package com.sharathp.flickster.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @SerializedName("id")
     private long mId;
