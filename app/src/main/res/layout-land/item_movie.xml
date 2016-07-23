@@ -7,17 +7,17 @@
                                                android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/iv_movie_poster"
+        android:id="@+id/iv_movie_backdrop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_widthPercent="50%"
+        app:layout_widthPercent="70%"
         android:adjustViewBounds="true"
         tools:src="@drawable/placeholder_land"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_movie_poster"
+        android:layout_toRightOf="@id/iv_movie_backdrop"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:orientation="vertical">

@@ -1,6 +1,7 @@
 package com.sharathp.flickster.views;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,30 +64,58 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_movie_poster)
-        ImageView mPosterImageView;
-
         @BindView(R.id.tv_movie_title)
         TextView mTitleTextView;
 
         @BindView(R.id.tv_movie_desc)
         TextView mDescriptionTextView;
 
+        // ButterKnife throws an error for optional, hence set explicitly
+        ImageView mBackDropImageView;
+
+        // ButterKnife throws an error for optional, hence set explicitly
+        ImageView mPosterImageView;
+
         public ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mBackDropImageView = (ImageView) itemView.findViewById(R.id.iv_movie_backdrop);
+            mPosterImageView = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
         }
 
         public void bind(final Movie movie) {
             mTitleTextView.setText(movie.getTitle());
             mDescriptionTextView.setText(movie.getOverview());
+            loadImage(movie);
+        }
+
+        private void loadImage(final Movie movie) {
+            final int orientation = itemView.getContext().getResources().getConfiguration().orientation;
+
+            int placeHolderImageRes;
+            int errorPlaceHolderImageRes;
+            ImageView imageView;
+            String imagePath;
+
+            if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
+                placeHolderImageRes = R.drawable.placeholder_land;
+                errorPlaceHolderImageRes = R.drawable.error_placeholder_land;
+                imageView = mBackDropImageView;
+                imagePath = Constants.getBackdropImageUrl(movie.getBackdropPath());
+            } else {
+                placeHolderImageRes = R.drawable.placeholder;
+                errorPlaceHolderImageRes = R.drawable.error_placeholder;
+                imageView = mPosterImageView;
+                imagePath = Constants.getPosterImageUrl(movie.getPosterPath());
+            }
+
             Picasso.with(itemView.getContext())
-                    .load(Constants.getPosterImageUrl(movie.getPosterPath()))
+                    .load(imagePath)
                     .fit()
                     .centerInside()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.error_placeholder)
-                    .into(mPosterImageView);
+                    .placeholder(placeHolderImageRes)
+                    .error(errorPlaceHolderImageRes)
+                    .into(imageView);
         }
     }
 }
