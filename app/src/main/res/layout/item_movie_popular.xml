@@ -17,4 +17,13 @@
         tools:src="@drawable/placeholder_land"
         android:padding="@dimen/item_movie_padding"/>
 
+    <ImageView
+        android:id="@+id/iv_movie_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_play_circle_outline"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
 </android.support.v7.widget.CardView>

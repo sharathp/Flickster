@@ -9,6 +9,9 @@ public class Constants {
     private static final String URL_MOVIE_POSTER = URL_BASE_MOVIE_IMAGE + "/w342/%s";
     private static final String URL_BACKDROP_IMAGE = URL_BASE_MOVIE_IMAGE + "/w780/%s";
 
+    public static final int ROUND_TRANSFORMATION_RADIUS = 10;
+    public static final int ROUND_TRANSFORMATION_MARGIN = 5;
+
     public static final String getPosterImageUrl(final String relativePath) {
         return String.format(URL_MOVIE_POSTER, relativePath);
     }

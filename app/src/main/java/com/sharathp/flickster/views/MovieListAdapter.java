@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.AbstractMovieViewHolder> {
     private static final int TYPE_REGULAR_MOVIE = 0;
@@ -60,7 +61,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
                 final View movieView = inflater.inflate(R.layout.item_movie_popular, parent, false);
                 return new PopularMovieViewHolder(movieView);
             }
-            default:{
+            default: {
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);
             }
         }
@@ -115,6 +116,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         @BindView(R.id.iv_movie_backdrop)
         ImageView mBackDropImageView;
 
+        @BindView(R.id.iv_movie_play)
+        ImageView mPlayImageView;
+
         public PopularMovieViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -128,7 +132,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
                     .centerInside()
                     .placeholder(R.drawable.placeholder_land)
                     .error(R.drawable.error_placeholder_land)
-                    .into(mBackDropImageView);
+                    .transform(new RoundedCornersTransformation(Constants.ROUND_TRANSFORMATION_RADIUS, Constants.ROUND_TRANSFORMATION_MARGIN))
+                    .into(mBackDropImageView,
+                            new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    mPlayImageView.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    mPlayImageView.setVisibility(View.GONE);
+                                }
+                            }
+                    );
         }
     }
 
@@ -185,6 +202,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
                     .centerInside()
                     .placeholder(placeHolderImageRes)
                     .error(errorPlaceHolderImageRes)
+                    .transform(new RoundedCornersTransformation(Constants.ROUND_TRANSFORMATION_RADIUS, Constants.ROUND_TRANSFORMATION_MARGIN))
                     .into(imageView);
         }
     }

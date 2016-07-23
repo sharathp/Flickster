@@ -8,6 +8,7 @@ ext {
     PICASSO_VERSION = "2.5.2"
     BUTTERKNIFE_VERSION = "8.2.1"
     GSON_VERSION = "2.7"
+    PICASSO_TRANSFORMATION_VERSION = "2.1.0"
 }
 
 android {
@@ -41,6 +42,7 @@ dependencies {
     compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
     compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
     apt "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
+    compile "jp.wasabeef:picasso-transformations:$PICASSO_TRANSFORMATION_VERSION"
     compile "com.google.code.gson:gson:$GSON_VERSION"
 
     testCompile "junit:junit:$JUNIT_VERSION"
