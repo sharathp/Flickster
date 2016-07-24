@@ -160,8 +160,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
                     .load(Constants.getBackdropImageUrl(mMovie.getBackdropPath()))
                     .fit()
                     .centerInside()
-                    .placeholder(R.drawable.placeholder_land)
-                    .error(R.drawable.error_placeholder_land)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error_placeholder)
                     .transform(new RoundedCornersTransformation(Constants.ROUND_TRANSFORMATION_RADIUS, Constants.ROUND_TRANSFORMATION_MARGIN))
                     .into(mBackDropImageView);
         }
