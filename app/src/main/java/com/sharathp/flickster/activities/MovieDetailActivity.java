@@ -9,11 +9,17 @@ import android.widget.TextView;
 import com.sharathp.flickster.R;
 import com.sharathp.flickster.models.Movie;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MovieDetailActivity extends BaseYoutubeActivity {
     public static final String EXTRA_MOVIE = MovieDetailActivity.class.getSimpleName() + ":MOVIE";
+    private static final String DATE_FORMAT_RELEASE_DATE = "MMMM d, yyyy";
+    private static final String FORMAT_POPULARITY = "#.00";
 
     private Movie mMovie;
 
@@ -49,8 +55,18 @@ public class MovieDetailActivity extends BaseYoutubeActivity {
         mMovie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         mTitleTextView.setText(mMovie.getTitle());
         mDescTextView.setText(mMovie.getOverview());
+        mMoviePopularityTextView.setText(getFormattedPopularity(mMovie.getPopularity()));
+        mMovieReleaseDateTextView.setText(getFormattedDate(mMovie.parseReleaseDate()));
         mVotesRatingBar.setRating(mMovie.getVoteAverage());
-        mMoviePopularityTextView.setText(Float.toString(mMovie.getPopularity()));
-        mMovieReleaseDateTextView.setText(mMovie.getReleaseDate());
+    }
+
+    private String getFormattedDate(final Date releaseDate) {
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_RELEASE_DATE);
+        return sdf.format(releaseDate);
+    }
+
+    private String getFormattedPopularity(final float popularity) {
+        final DecimalFormat decimalFormat = new DecimalFormat(FORMAT_POPULARITY);
+        return decimalFormat.format(popularity);
     }
 }

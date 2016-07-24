@@ -1,11 +1,19 @@
 package com.sharathp.flickster.models;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Movie implements Serializable {
+    private static final String TAG = Movie.class.getSimpleName();
+
     private static final long serialVersionUID = 1L;
+    private static final String DATE_FORMAT_RELEASE_DATE = "yyyy-MM-dd";
 
     @SerializedName("id")
     private long mId;
@@ -104,5 +112,19 @@ public class Movie implements Serializable {
 
     public void setReleaseDate(final String releaseDate) {
         mReleaseDate = releaseDate;
+    }
+
+    public Date parseReleaseDate() {
+        if (mReleaseDate == null) {
+            return null;
+        }
+
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_RELEASE_DATE);
+        try {
+            return sdf.parse(mReleaseDate);
+        } catch (final ParseException e) {
+            Log.e(TAG, "Error parsing release date: " + mReleaseDate, e);
+            return null;
+        }
     }
 }
