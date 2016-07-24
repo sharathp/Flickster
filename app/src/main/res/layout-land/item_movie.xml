@@ -46,7 +46,6 @@
                 android:layout_marginTop="@dimen/item_movie_text_desc_margin"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:textSize="@dimen/item_movie_desc_text_size"
                 tools:text="Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment."/>
 
         </LinearLayout>

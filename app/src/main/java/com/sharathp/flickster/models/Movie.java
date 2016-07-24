@@ -28,6 +28,12 @@ public class Movie implements Serializable {
     @SerializedName("video")
     private boolean mVideo;
 
+    @SerializedName("popularity")
+    private float mPopularity;
+
+    @SerializedName("release_date")
+    private String mReleaseDate;
+
     public long getId() {
         return mId;
     }
@@ -82,5 +88,21 @@ public class Movie implements Serializable {
 
     public void setVideo(final boolean video) {
         mVideo = video;
+    }
+
+    public float getPopularity() {
+        return mPopularity;
+    }
+
+    public void setPopularity(final float popularity) {
+        mPopularity = popularity;
+    }
+
+    public String getReleaseDate() {
+        return mReleaseDate;
+    }
+
+    public void setReleaseDate(final String releaseDate) {
+        mReleaseDate = releaseDate;
     }
 }

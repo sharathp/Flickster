@@ -18,7 +18,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/detail_movie_section_margin"
             app:cardCornerRadius="8dp">
 
             <com.google.android.youtube.player.YouTubePlayerView
@@ -33,42 +33,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="@dimen/item_movie_title_text_size"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="@dimen/detail_movie_title_text_size"
+            android:layout_marginBottom="@dimen/detail_movie_section_margin"/>
 
         <View style="@style/Divider"
-              android:layout_marginBottom="10dp"/>
+              android:layout_marginBottom="@dimen/detail_movie_section_margin"/>
 
-        <LinearLayout
+        <RatingBar
+            android:id="@+id/rb_votes"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="@dimen/detail_movie_section_margin"
+            android:numStars="10"
+            android:isIndicator="true"/>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_star_black"
-                android:layout_marginRight="2dp"/>
+        <TextView
+            style="@style/MovieDetailSectionTitle"
+            android:text="Popularity"/>
 
-            <TextView
-                android:id="@+id/tv_votes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"/>
+        <TextView
+            android:id="@+id/tv_movie_popularity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/detail_movie_section_margin"/>
 
-        </LinearLayout>
+        <TextView
+            style="@style/MovieDetailSectionTitle"
+            android:text="Release Date"/>
+
+        <TextView
+            android:id="@+id/tv_movie_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/detail_movie_section_margin"/>
 
         <View style="@style/Divider"
-              android:layout_marginBottom="10dp"/>
+              android:layout_marginBottom="@dimen/detail_movie_section_margin"/>
+
+        <TextView
+            style="@style/MovieDetailSectionTitle"
+            android:text="Overview"/>
 
         <TextView
             android:id="@+id/tv_movie_desc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/item_movie_desc_text_size"
-            android:layout_marginBottom="10dp"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

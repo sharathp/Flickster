@@ -53,12 +53,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
 
         switch (viewType) {
             case TYPE_POPULAR_MOVIE: {
-                final View movieView = inflater.inflate(R.layout.item_movie, parent, false);
-                return new RegularMovieViewHolder(movieView, mMovieItemCallback);
-            }
-            case TYPE_REGULAR_MOVIE: {
                 final View movieView = inflater.inflate(R.layout.item_movie_popular, parent, false);
                 return new PopularMovieViewHolder(movieView, mMovieItemCallback);
+            }
+            case TYPE_REGULAR_MOVIE: {
+                final View movieView = inflater.inflate(R.layout.item_movie, parent, false);
+                return new RegularMovieViewHolder(movieView, mMovieItemCallback);
             }
             default: {
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);

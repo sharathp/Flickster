@@ -3,6 +3,7 @@ package com.sharathp.flickster.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.sharathp.flickster.R;
@@ -22,8 +23,14 @@ public class MovieDetailActivity extends BaseYoutubeActivity {
     @BindView(R.id.tv_movie_desc)
     TextView mDescTextView;
 
-    @BindView(R.id.tv_votes)
-    TextView mVotesTextView;
+    @BindView(R.id.rb_votes)
+    RatingBar mVotesRatingBar;
+
+    @BindView(R.id.tv_movie_popularity)
+    TextView mMoviePopularityTextView;
+
+    @BindView(R.id.tv_movie_release_date)
+    TextView mMovieReleaseDateTextView;
 
     public static Intent createIntent(final Context context, final Movie movie) {
         final Intent intent = new Intent(context, MovieDetailActivity.class);
@@ -42,6 +49,8 @@ public class MovieDetailActivity extends BaseYoutubeActivity {
         mMovie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         mTitleTextView.setText(mMovie.getTitle());
         mDescTextView.setText(mMovie.getOverview());
-        mVotesTextView.setText(Float.toString(mMovie.getVoteAverage()));
+        mVotesRatingBar.setRating(mMovie.getVoteAverage());
+        mMoviePopularityTextView.setText(Float.toString(mMovie.getPopularity()));
+        mMovieReleaseDateTextView.setText(mMovie.getReleaseDate());
     }
 }
