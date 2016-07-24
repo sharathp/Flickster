@@ -2,11 +2,13 @@ package com.sharathp.flickster.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharathp.flickster.FlicksterApplication;
@@ -32,6 +34,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_list);
         mMovieListAdapter = new MovieListAdapter(new ArrayList<Movie>(), this);
         mMovieRepository = FlicksterApplication.from(this).getComponent().getMovieRepository();
+
+        setSupportActionBar(mBinding.toolbarLayout.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setToolbarTitleFont();
 
         final RecyclerView moviesRecyclerView = mBinding.rvMovies;
         moviesRecyclerView.setAdapter(mMovieListAdapter);
@@ -72,5 +78,12 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
     public void onPopularMovieSelected(final Movie movie) {
         final Intent intent = YoutubeActivity.createIntent(this, movie.getId());
         startActivity(intent);
+    }
+
+    private void setToolbarTitleFont() {
+        final TextView toolbarTextView = mBinding.toolbarLayout.toolbarTitle;
+        final Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf");
+        // Assign the typeface to the view
+        toolbarTextView.setTypeface(font);
     }
 }
