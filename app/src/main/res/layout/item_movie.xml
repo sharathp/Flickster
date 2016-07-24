@@ -24,7 +24,7 @@
             app:layout_widthPercent="50%"
             tools:src="@drawable/placeholder_land"/>
 
-        <include layout="@layout/merge_item_movie_desc"
+        <include layout="@layout/include_item_movie_desc"
                  android:layout_height="wrap_content"
                  android:layout_width="wrap_content"
                  android:layout_centerVertical="true"
