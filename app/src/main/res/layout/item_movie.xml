@@ -5,15 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/item_movie_vertical_margin"
-    android:layout_marginTop="@dimen/item_movie_vertical_margin">
+    android:layout_marginTop="@dimen/item_movie_vertical_margin"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="@dimen/item_movie_padding">
 
         <ImageView
@@ -22,14 +21,15 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:layout_widthPercent="50%"
-            tools:src="@drawable/placeholder_land"/>
+            tools:src="@drawable/placeholder"/>
 
-        <include layout="@layout/include_item_movie_desc"
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:layout_centerVertical="true"
-                 android:layout_marginLeft="@dimen/item_movie_text_section_margin"
-                 android:layout_toRightOf="@id/iv_movie_poster"/>
+        <include
+            layout="@layout/include_item_movie_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/item_movie_text_section_margin"
+            android:layout_toRightOf="@id/iv_movie_poster"/>
 
     </android.support.percent.PercentRelativeLayout>
 

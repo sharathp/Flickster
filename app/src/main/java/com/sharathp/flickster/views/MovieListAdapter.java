@@ -1,7 +1,6 @@
 package com.sharathp.flickster.views;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -126,6 +125,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         @BindView(R.id.iv_movie_play)
         ImageView mPlayImageView;
 
+        @Nullable
+        @BindView(R.id.tv_movie_title)
+        TextView mTitleTextView;
+
+        @Nullable
+        @BindView(R.id.tv_movie_desc)
+        TextView mDescriptionTextView;
+
         private View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -141,6 +148,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
 
         @Override
         public void doBind() {
+            if (mTitleTextView != null) {
+                mTitleTextView.setText(mMovie.getTitle());
+            }
+
+            if (mDescriptionTextView != null) {
+                mDescriptionTextView.setText(mMovie.getOverview());
+            }
+
             Picasso.with(itemView.getContext())
                     .load(Constants.getBackdropImageUrl(mMovie.getBackdropPath()))
                     .fit()
@@ -148,19 +163,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
                     .placeholder(R.drawable.placeholder_land)
                     .error(R.drawable.error_placeholder_land)
                     .transform(new RoundedCornersTransformation(Constants.ROUND_TRANSFORMATION_RADIUS, Constants.ROUND_TRANSFORMATION_MARGIN))
-                    .into(mBackDropImageView,
-                            new com.squareup.picasso.Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    mPlayImageView.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onError() {
-                                    mPlayImageView.setVisibility(View.GONE);
-                                }
-                            }
-                    );
+                    .into(mBackDropImageView);
         }
     }
 
@@ -172,11 +175,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         @BindView(R.id.tv_movie_desc)
         TextView mDescriptionTextView;
 
-        @Nullable
-        @BindView(R.id.iv_movie_backdrop)
-        ImageView mBackDropImageView;
-
-        @Nullable
         @BindView(R.id.iv_movie_poster)
         ImageView mPosterImageView;
 
@@ -196,37 +194,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Abst
         public void doBind() {
             mTitleTextView.setText(mMovie.getTitle());
             mDescriptionTextView.setText(mMovie.getOverview());
-            loadImage(mMovie);
-        }
-
-        private void loadImage(final Movie movie) {
-            final int orientation = itemView.getContext().getResources().getConfiguration().orientation;
-
-            int placeHolderImageRes;
-            int errorPlaceHolderImageRes;
-            ImageView imageView;
-            String imagePath;
-
-            if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
-                placeHolderImageRes = R.drawable.placeholder_land;
-                errorPlaceHolderImageRes = R.drawable.error_placeholder_land;
-                imageView = mBackDropImageView;
-                imagePath = Constants.getBackdropImageUrl(movie.getBackdropPath());
-            } else {
-                placeHolderImageRes = R.drawable.placeholder;
-                errorPlaceHolderImageRes = R.drawable.error_placeholder;
-                imageView = mPosterImageView;
-                imagePath = Constants.getPosterImageUrl(movie.getPosterPath());
-            }
-
             Picasso.with(itemView.getContext())
-                    .load(imagePath)
+                    .load(Constants.getPosterImageUrl(mMovie.getPosterPath()))
                     .fit()
                     .centerInside()
-                    .placeholder(placeHolderImageRes)
-                    .error(errorPlaceHolderImageRes)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error_placeholder)
                     .transform(new RoundedCornersTransformation(Constants.ROUND_TRANSFORMATION_RADIUS, Constants.ROUND_TRANSFORMATION_MARGIN))
-                    .into(imageView);
+                    .into(mPosterImageView);
         }
     }
 
