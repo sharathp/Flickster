@@ -13,4 +13,5 @@
     <dimen name="detail_movie_section_margin">10dp</dimen>
 
     <dimen name="toolbar_title_text_size">22sp</dimen>
+    <dimen name="activity_movie_list_top_margin">10dp</dimen>
 </resources>
