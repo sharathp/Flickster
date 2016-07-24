@@ -24,31 +24,12 @@
             app:layout_widthPercent="70%"
             tools:src="@drawable/placeholder_land"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/item_movie_text_section_margin"
-            android:layout_toRightOf="@id/iv_movie_backdrop"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_movie_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/item_movie_title_text_size"
-                tools:text="The Legend of Tarzan"/>
-
-            <TextView
-                android:id="@+id/tv_movie_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/item_movie_text_desc_margin"
-                android:ellipsize="end"
-                android:maxLines="4"
-                tools:text="Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment."/>
-
-        </LinearLayout>
+        <include layout="@layout/merge_item_movie_desc"
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:layout_centerVertical="true"
+                 android:layout_marginLeft="@dimen/item_movie_text_section_margin"
+                 android:layout_toRightOf="@id/iv_movie_backdrop"/>
 
     </android.support.percent.PercentRelativeLayout>
 
