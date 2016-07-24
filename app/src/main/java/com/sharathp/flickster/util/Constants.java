@@ -4,7 +4,7 @@ public class Constants {
     private static final String API_QUERY_PARAM = "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
     private static final String URL_BASE = " https://api.themoviedb.org/3/movie";
     private static final String URL_LATEST_MOVIES = URL_BASE + "/now_playing?" + API_QUERY_PARAM;
-    private static final String URL_MOVIE_VIDEOS = URL_BASE + "/%d/videos?" + API_QUERY_PARAM;
+    private static final String URL_MOVIE_TRAILERS = URL_BASE + "/%d/trailers?" + API_QUERY_PARAM;
 
     private static final String URL_BASE_MOVIE_IMAGE = "https://image.tmdb.org/t/p";
     private static final String URL_MOVIE_POSTER = URL_BASE_MOVIE_IMAGE + "/w342/%s";
@@ -25,7 +25,7 @@ public class Constants {
         return URL_LATEST_MOVIES;
     }
 
-    public static final String getMovieVideosUrl(final long movieId) {
-        return String.format(URL_MOVIE_VIDEOS, movieId);
+    public static final String getMovieTrailersUrl(final long movieId) {
+        return String.format(URL_MOVIE_TRAILERS, movieId);
     }
 }

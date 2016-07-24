@@ -7,39 +7,17 @@ import java.io.Serializable;
 public class Video implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @SerializedName("id")
-    private String mId;
-
-    @SerializedName("key")
-    private String mKey;
-
     @SerializedName("name")
     private String mName;
 
-    @SerializedName("site")
-    private String mSite;
-
     @SerializedName("size")
-    private int mSize;
+    private String mSize;
+
+    @SerializedName("source")
+    private String mSource;
 
     @SerializedName("type")
     private String mType;
-
-    public String getId() {
-        return mId;
-    }
-
-    public void setId(final String id) {
-        mId = id;
-    }
-
-    public String getKey() {
-        return mKey;
-    }
-
-    public void setKey(final String key) {
-        mKey = key;
-    }
 
     public String getName() {
         return mName;
@@ -49,20 +27,20 @@ public class Video implements Serializable {
         mName = name;
     }
 
-    public String getSite() {
-        return mSite;
-    }
-
-    public void setSite(final String site) {
-        mSite = site;
-    }
-
-    public int getSize() {
+    public String getSize() {
         return mSize;
     }
 
-    public void setSize(final int size) {
+    public void setSize(final String size) {
         mSize = size;
+    }
+
+    public String getSource() {
+        return mSource;
+    }
+
+    public void setSource(final String source) {
+        mSource = source;
     }
 
     public String getType() {

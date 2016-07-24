@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.sharathp.flickster.models.Movie;
-import com.sharathp.flickster.models.MovieVideosResponse;
+import com.sharathp.flickster.models.MovieTrailersResponse;
 import com.sharathp.flickster.models.MoviesResponse;
 import com.sharathp.flickster.models.Video;
 import com.sharathp.flickster.util.Constants;
@@ -42,11 +42,11 @@ public class MovieRepository {
 
     public void retrieveMovieVideos(final long movieId, final MovieVideosCallback movieVideosCallback) {
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(Constants.getMovieVideosUrl(movieId), new TextHttpResponseHandler() {
+        client.get(Constants.getMovieTrailersUrl(movieId), new TextHttpResponseHandler() {
             @Override
             public void onSuccess(final int statusCode, final Header[] headers, final String res) {
-                final MovieVideosResponse movieVideosResponse = mGson.fromJson(res, MovieVideosResponse.class);
-                movieVideosCallback.videosRetrievedSuccessfully(movieVideosResponse.getResults());
+                final MovieTrailersResponse movieTrailersResponse = mGson.fromJson(res, MovieTrailersResponse.class);
+                movieVideosCallback.videosRetrievedSuccessfully(movieTrailersResponse.getResults());
             }
 
             @Override

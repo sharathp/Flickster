@@ -8,6 +8,6 @@ public class MovieUtil {
 
     public static String getVideoKeyToPlay(final List<Video> videos) {
         // get the first video
-        return videos.get(0).getKey();
+        return videos.get(0).getSource();
     }
 }
