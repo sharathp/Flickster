@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.sharathp.flickster.FlicksterApplication;
 import com.sharathp.flickster.R;
 import com.sharathp.flickster.models.Movie;
 import com.sharathp.flickster.repositories.MovieRepository;
@@ -40,7 +41,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieReposit
         mMoviesRecyclerView.setAdapter(mMovieListAdapter);
         mMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mMovieRepository = new MovieRepository();
+        mMovieRepository = FlicksterApplication.from(this).getComponent().getMovieRepository();
         mMovieRepository.retrieveAllMovies(this);
 
         mMoviesSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

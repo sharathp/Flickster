@@ -9,6 +9,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.sharathp.flickster.BuildConfig;
+import com.sharathp.flickster.FlicksterApplication;
 import com.sharathp.flickster.R;
 import com.sharathp.flickster.models.Video;
 import com.sharathp.flickster.repositories.MovieRepository;
@@ -34,7 +35,7 @@ public abstract class BaseYoutubeActivity extends YouTubeBaseActivity implements
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMovieRepository = new MovieRepository();
+        mMovieRepository = FlicksterApplication.from(this).getComponent().getMovieRepository();
         mMovieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, -1);
     }
 
