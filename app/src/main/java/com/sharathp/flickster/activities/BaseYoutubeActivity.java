@@ -26,7 +26,7 @@ public abstract class BaseYoutubeActivity extends YouTubeBaseActivity implements
     private long mMovieId;
 
     @BindView(R.id.ypv_play)
-    YouTubePlayerView mYouTubePlayerView;
+    protected YouTubePlayerView mYouTubePlayerView;
 
     protected static void populateIntent(final Intent intent, final long movieId) {
         intent.putExtra(EXTRA_MOVIE_ID, movieId);

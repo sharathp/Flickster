@@ -17,6 +17,8 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
 
+    dataBinding.enabled = true
+
     defaultConfig {
         applicationId "com.sharathp.flickster"
         minSdkVersion 16

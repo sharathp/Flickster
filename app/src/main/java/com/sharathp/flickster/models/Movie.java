@@ -114,16 +114,12 @@ public class Movie implements Serializable {
         mReleaseDate = releaseDate;
     }
 
-    public Date parseReleaseDate() {
-        if (mReleaseDate == null) {
-            return null;
-        }
-
+    public static Date parseReleaseDate(final String releaseDate) {
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_RELEASE_DATE);
         try {
-            return sdf.parse(mReleaseDate);
+            return sdf.parse(releaseDate);
         } catch (final ParseException e) {
-            Log.e(TAG, "Error parsing release date: " + mReleaseDate, e);
+            Log.e(TAG, "Error parsing release date: " + releaseDate, e);
             return null;
         }
     }
