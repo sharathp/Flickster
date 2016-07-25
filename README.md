@@ -84,6 +84,13 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 Describe any challenges encountered while building the app.
 * Creating an elegant design & icons is time consuming.
 
+## Installation Instructions
+* This app requires Google API key to play YouTube videos as described [here](http://guides.codepath.com/android/Streaming-Youtube-Videos-with-YouTubePlayerView#setup)
+* After obtaining the API token, put the following entry into local.properties (do NOT check-in this file) located at the root of this project
+```
+YoutubeApiToken="<your-token>"
+```
+
 ## Open-source libraries used
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
