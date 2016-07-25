@@ -41,13 +41,13 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 ### Portrait
-<img src='http://i.imgur.com/kb9ALcL.gif' title='Portrait Walkthrough' width='' alt='Portrait Walkthrough' />
+![Portrait Walkthrough](http://i.imgur.com/kb9ALcL.gif)
 
 ### Landscape
 <img src='http://i.imgur.com/8sRIBsi.gif' title='Landscape Walkthrough' width='' alt='Landscape Walkthrough' />
 
 ### Refresh & Quick Return
-<img src='http://i.imgur.com/xRZC5Fg.gif' title='Landscape Walkthrough' width='' alt='Landscape Walkthrough' />
+<img src='http://i.imgur.com/xRZC5Fg.gif' title='Refresh and Quick Return Walkthrough' width='' alt='Refresh and Quick Return Walkthrough' />
 
 The GIFs resolution is a bit low, hence I added these screenshots:
 
